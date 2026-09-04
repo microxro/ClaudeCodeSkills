@@ -1,0 +1,6 @@
+{
+  "name": "tree",
+  "description": "Decompose a large or multi-part build into a verified task tree, split the optimal amount to finish at the best effort in the least time, dispatch the independent pieces to parallel subagents, and refuse to declare it done until every piece is implemented, self-tested, and integration-checked together.",
+  "version": "1.0.0",
+  "license": "MIT"
+}

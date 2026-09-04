@@ -1,0 +1,6 @@
+{
+  "name": "taste",
+  "description": "Apply practitioner judgment instead of generic-model defaults when creating or critiquing a real deliverable — code, UI, documents, plans, messages, system designs, charts.",
+  "version": "1.0.0",
+  "license": "MIT"
+}

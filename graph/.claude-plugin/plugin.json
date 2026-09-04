@@ -1,0 +1,6 @@
+{
+  "name": "graph",
+  "description": "Build and query a persistent, confidence-tagged knowledge graph of a repository instead of rediscovering its structure from scratch every time.",
+  "version": "1.0.0",
+  "license": "MIT"
+}
