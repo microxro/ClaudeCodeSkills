@@ -1,6 +1,6 @@
 ---
 name: tree
-description: Decompose a large or multi-part build into a verified task tree, dispatch the independent pieces to parallel subagents (model-tiered — opus for hard/architectural work, sonnet for standard implementation, haiku for boilerplate), and refuse to declare the task done until every required piece has been implemented, self-tested by its own worker, re-verified by you against the merged code, and integration-checked together. Use this whenever a request involves multiple features, multiple components/files, or phrases like "build the whole thing", "make sure everything works", "don't stop until it's done", "run these in parallel" or "use multiple agents" — even if the user never says "skill" or "task tree". Also use whenever the user explicitly invokes /tree. Do NOT use it for a single small fix or one-file change — the decomposition and gate overhead only pays off on real multi-part work.
+description: Decompose a large or multi-part build into a verified task tree, splitting it the optimal amount — wide enough to parallelize, never wider than the work actually supports — so it gets done at the best effort in the least wall-clock time, dispatch the independent pieces to parallel subagents (model-tiered — opus for hard/architectural work, sonnet for standard implementation, haiku for boilerplate), and refuse to declare the task done until every required piece has been implemented, self-tested by its own worker, re-verified by you against the merged code, and integration-checked together. Use this whenever a request involves multiple features, multiple components/files, or phrases like "build the whole thing", "make sure everything works", "don't stop until it's done", "run these in parallel" or "use multiple agents" — even if the user never says "skill" or "task tree". Also use whenever the user explicitly invokes /tree. Do NOT use it for a single small fix or one-file change — the decomposition and gate overhead only pays off on real multi-part work.
 ---
 
 # /tree — decompose, verify, parallelize
@@ -19,6 +19,14 @@ This skill closes that gap with one rule:
 
 Everything below — the tree, the states, the parallel dispatch, the merges — exists
 to make that rule practical on tasks too big to hold in your head at once.
+
+The other constant underneath the mechanics: split the work the *optimal* amount, not
+the maximal amount. The tree should be exactly as wide as the task's genuinely
+independent, disjoint-file, separately-gatable pieces make it — no narrower, which
+throws away parallelism and wall-clock speed, and no wider, which spends
+dispatch/gate/merge overhead you don't get back. Section 2 below spells out how to
+find that width; hold it in mind through the whole workflow, since it's what turns
+"decomposed" into "decomposed to finish at the best effort in the least time."
 
 ## When to actually use the full machinery
 

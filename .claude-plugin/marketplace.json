@@ -1,0 +1,24 @@
+{
+  "name": "claudecodeskills",
+  "owner": {
+    "name": "microxro"
+  },
+  "description": "Portable Claude Code skills — /tree, /taste, and /graph",
+  "plugins": [
+    {
+      "name": "tree",
+      "source": "./tree",
+      "description": "Decompose a large or multi-part build into a verified task tree, split the optimal amount to finish at the best effort in the least time, and dispatch independent pieces to parallel subagents."
+    },
+    {
+      "name": "taste",
+      "source": "./taste",
+      "description": "Apply practitioner judgment instead of generic-model defaults when creating or critiquing a real deliverable."
+    },
+    {
+      "name": "graph",
+      "source": "./graph",
+      "description": "Build and query a persistent, confidence-tagged knowledge graph of a repository."
+    }
+  ]
+}

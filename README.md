@@ -6,9 +6,11 @@ on any machine to install them.
 ## What's here
 
 - **`tree/` — `/tree`**: decompose a large or multi-part build into a verified
-  task tree, dispatch independent pieces to parallel subagents (model-tiered —
-  opus for hard work, sonnet for standard implementation, haiku for
-  boilerplate), and refuse to declare it done until every piece is
+  task tree, splitting it the optimal amount — wide enough to parallelize,
+  never wider than the work supports — so it gets done at the best effort in
+  the least time, dispatch independent pieces to parallel subagents
+  (model-tiered — opus for hard work, sonnet for standard implementation,
+  haiku for boilerplate), and refuse to declare it done until every piece is
   implemented, self-tested by its own worker, re-verified against the merged
   code, and integration-checked together.
 
@@ -32,6 +34,18 @@ Each skill is a standard `SKILL.md` (+ `references/`, and for `graph/`,
 `scripts/`) — nothing here depends on the others, install any subset.
 
 ## Install
+
+### Option A: as a plugin marketplace
+
+This repo is a Claude Code plugin marketplace (`.claude-plugin/marketplace.json`
+at the root, one plugin per skill). Add it and install what you want:
+
+```bash
+claude plugin marketplace add microxro/ClaudeCodeSkills
+/plugin install tree      # or taste, or graph
+```
+
+### Option B: clone and copy
 
 Clone the repo, then either run the installer or copy the folders by hand.
 
