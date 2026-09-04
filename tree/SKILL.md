@@ -104,6 +104,34 @@ goal is the widest wave you can dispatch *without* two leaves ever claiming the 
 file. When those pull against each other, no-overlap wins: two leaves racing on one
 file is worse than a slightly narrower wave.
 
+**Optimal is not maximal — stop splitting once a further split stops paying for
+itself.** Width is a means to wall-clock speed and independent verifiability, not a
+score to maximize. Before adding a split, name what it actually buys:
+
+- **Real parallelism gain** — the two halves can genuinely run concurrently because
+  neither blocks on the other's actual output or shape, or
+- **Real verifiability gain** — the split piece gets a gate that is meaningfully
+  sharper or easier to diagnose than the gate its parent would otherwise need.
+
+If a candidate split buys neither — the two pieces would always be built, gated, and
+merged together in practice, or one is too small to justify its own gate, worker
+dispatch, and merge overhead — merge it back into its sibling. Two symptoms to watch
+for in either direction:
+
+- **Over-split**: leaves so small the dispatch/gate/merge overhead exceeds the work
+  itself (e.g. splitting "add a config field" from "read it in the one function that
+  uses it" when nothing else touches either), or a wave with far more leaves than the
+  task has independently-meaningful pieces.
+- **Under-split**: a single leaf quietly doing two or more things that don't share
+  files and don't need each other's finished code — the tree looks simple but you've
+  thrown away parallelism and made the gate harder to write and diagnose.
+
+There's no fixed number to target — the right count falls out of how many genuinely
+independent, disjoint-file, separately-gatable pieces the actual contract has. Re-run
+this test on the tree once it's built: for each leaf, could it merge into a neighbor
+with no loss of parallelism or gate clarity? If yes, merge it. Could it split further
+with a real gain on either axis above? If yes, split it.
+
 ## 3. Gates: turn "should work" into "did work, just now"
 
 A gate has two parts:
